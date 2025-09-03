@@ -1,151 +1,385 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="description" content="A product of emergent.sh" />
-        <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-        <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fanz - Premium Content Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen bg-gradient-to-b from-white to-gray-50 text-gray-900">
+  <!-- Top Navigation -->
+  <header class="sticky top-0 z-40 w-full border-b bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button id="toggle-sidebar" class="lg:hidden p-2 rounded-xl border hover:bg-gray-50">
+          <i data-lucide="menu" class="h-5 w-5"></i>
+        </button>
+        <div class="flex items-center gap-2">
+          <i data-lucide="flame" class="h-6 w-6 text-indigo-600"></i>
+          <span class="font-extrabold text-xl tracking-tight">Fanz</span>
+        </div>
+      </div>
+      <div class="hidden md:flex max-w-md flex-1 mx-6">
+        <div class="relative w-full">
+          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"></i>
+          <input id="search-input" placeholder="Search creators, posts, tags…" class="w-full rounded-2xl border pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="p-2 rounded-xl border hover:bg-gray-50"><i data-lucide="bell" class="h-5 w-5"></i></button>
+        <button id="create-post-btn" class="p-2 rounded-xl border hover:bg-gray-50"><i data-lucide="camera" class="h-5 w-5"></i></button>
+        <img id="user-avatar" src="https://i.pravatar.cc/150?img=2" alt="me" class="h-8 w-8 rounded-full ring-2 ring-white"/>
+      </div>
+    </div>
+  </header>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-        <title>Emergent | Fullstack App</title>
-    </head>
-    <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
-        <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[18rem_1fr] gap-6 py-6">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed lg:static z-50 lg:z-auto top-0 left-0 h-full w-72 bg-white border-r shadow-lg lg:shadow-none transform transition-transform -translate-x-full lg:translate-x-0">
+      <div class="h-14 flex items-center justify-between px-4 border-b lg:hidden">
+        <div class="flex items-center gap-2">
+          <i data-lucide="flame" class="h-6 w-6 text-indigo-600"></i>
+          <span class="font-extrabold text-lg">Fanz</span>
+        </div>
+        <button id="close-sidebar" class="p-2 rounded-xl border">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
+      </div>
+      <nav class="p-3">
+        <div class="px-2 pb-3">
+          <button id="create-post-sidebar" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl py-2 font-medium shadow">
+            Create Post
+          </button>
+        </div>
+        <ul class="space-y-1">
+          <li><button data-page="feed" class="nav-btn w-full flex items-center gap-3 px-4 py-2 rounded-xl text-sm active">
+            <i data-lucide="home" class="h-5 w-5"></i><span>Feed</span>
+          </button></li>
+          <li><button data-page="discover" class="nav-btn w-full flex items-center gap-3 px-4 py-2 rounded-xl text-sm">
+            <i data-lucide="users" class="h-5 w-5"></i><span>Discover</span>
+          </button></li>
+          <li><button data-page="profile" class="nav-btn w-full flex items-center gap-3 px-4 py-2 rounded-xl text-sm">
+            <i data-lucide="star" class="h-5 w-5"></i><span>My Profile</span>
+          </button></li>
+          <li><button data-page="messages" class="nav-btn w-full flex items-center gap-3 px-4 py-2 rounded-xl text-sm">
+            <i data-lucide="message-circle" class="h-5 w-5"></i><span>Messages</span>
+          </button></li>
+          <li><button data-page="settings" class="nav-btn w-full flex items-center gap-3 px-4 py-2 rounded-xl text-sm">
+            <i data-lucide="settings" class="h-5 w-5"></i><span>Settings</span>
+          </button></li>
+        </ul>
+        <div class="mt-6 rounded-2xl border p-3 bg-gradient-to-br from-gray-50 to-white">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="shield" class="h-4 w-4"></i>
+            <span class="text-xs font-semibold">Safe Creator Tips</span>
+          </div>
+          <p class="text-xs text-gray-600">Verify your email, enable 2FA, and follow community guidelines.</p>
+        </div>
+      </nav>
+    </aside>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-        <a
-            id="emergent-badge"
-            target="_blank"
-            href="https://app.emergent.sh/?utm_source=emergent-badge"
-            style="
-                display: flex !important;
-                align-items: center !important;
-                position: fixed !important;
-                bottom: 20px;
-                right: 20px;
-                text-decoration: none;
-                padding: 6px 10px;
-                font-family: -apple-system, BlinkMacSystemFont,
-                    &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell,
-                    &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;,
-                    sans-serif !important;
-                font-size: 12px !important;
-                z-index: 9999 !important;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-                border-radius: 8px !important;
-                background-color: #ffffff !important;
-                border: 1px solid rgba(255, 255, 255, 0.25) !important;
-            "
-        >
-            <div
-                style="display: flex; flex-direction: row; align-items: center"
-            >
-                <img
-                    style="width: 20px; height: 20px; margin-right: 8px"
-                    src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4"
-                />
-                <p
-                    style="
-                        color: #000000;
-                        font-family: -apple-system, BlinkMacSystemFont,
-                            &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu,
-                            Cantarell, &quot;Open Sans&quot;,
-                            &quot;Helvetica Neue&quot;, sans-serif !important;
-                        font-size: 12px !important;
-                        align-items: center;
-                        margin-bottom: 0;
-                    "
-                >
-                    Made with Emergent
-                </p>
+    <!-- Main Content -->
+    <main id="main-content" class="space-y-6">
+      <!-- Feed Page -->
+      <div id="feed-page" class="page-content">
+        <div class="grid lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-6" id="posts-container">
+            <!-- Posts will be loaded here -->
+          </div>
+          <div class="space-y-4">
+            <div class="rounded-2xl border p-4 bg-white">
+              <div class="font-semibold mb-3">Suggested creators</div>
+              <div id="suggested-creators" class="grid grid-cols-2 gap-3">
+                <!-- Suggested creators will be loaded here -->
+              </div>
             </div>
-        </a>
-        <script>
-            !(function (t, e) {
-                var o, n, p, r;
-                e.__SV ||
-                    ((window.posthog = e),
-                    (e._i = []),
-                    (e.init = function (i, s, a) {
-                        function g(t, e) {
-                            var o = e.split(".");
-                            2 == o.length && ((t = t[o[0]]), (e = o[1])),
-                                (t[e] = function () {
-                                    t.push(
-                                        [e].concat(
-                                            Array.prototype.slice.call(
-                                                arguments,
-                                                0,
-                                            ),
-                                        ),
-                                    );
-                                });
-                        }
-                        ((p = t.createElement("script")).type =
-                            "text/javascript"),
-                            (p.crossOrigin = "anonymous"),
-                            (p.async = !0),
-                            (p.src =
-                                s.api_host.replace(
-                                    ".i.posthog.com",
-                                    "-assets.i.posthog.com",
-                                ) + "/static/array.js"),
-                            (r =
-                                t.getElementsByTagName(
-                                    "script",
-                                )[0]).parentNode.insertBefore(p, r);
-                        var u = e;
-                        for (
-                            void 0 !== a ? (u = e[a] = []) : (a = "posthog"),
-                                u.people = u.people || [],
-                                u.toString = function (t) {
-                                    var e = "posthog";
-                                    return (
-                                        "posthog" !== a && (e += "." + a),
-                                        t || (e += " (stub)"),
-                                        e
-                                    );
-                                },
-                                u.people.toString = function () {
-                                    return u.toString(1) + ".people (stub)";
-                                },
-                                o =
-                                    "init me ws ys ps bs capture je Di ks register register_once register_for_session unregister unregister_for_session Ps getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Es $s createPersonProfile Is opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Ss debug xs getPageViewId captureTraceFeedback captureTraceMetric".split(
-                                        " ",
-                                    ),
-                                n = 0;
-                            n < o.length;
-                            n++
-                        )
-                            g(u, o[n]);
-                        e._i.push([i, s, a]);
-                    }),
-                    (e.__SV = 1));
-            })(document, window.posthog || []);
-            posthog.init("phc_yJW1VjHGGwmCbbrtczfqqNxgBDbhlhOWcdzcIJEOTFE", {
-                api_host: "https://us.i.posthog.com",
-                person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
-            });
-        </script>
-    </body>
+            <div class="rounded-2xl border p-4 bg-white">
+              <div class="font-semibold mb-2">Trending tags</div>
+              <div class="flex flex-wrap gap-2 text-xs">
+                <span class="px-2 py-1 rounded-full border bg-gray-50">#bts</span>
+                <span class="px-2 py-1 rounded-full border bg-gray-50">#fitness</span>
+                <span class="px-2 py-1 rounded-full border bg-gray-50">#vlog</span>
+                <span class="px-2 py-1 rounded-full border bg-gray-50">#travel</span>
+                <span class="px-2 py-1 rounded-full border bg-gray-50">#studio</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Discover Page -->
+      <div id="discover-page" class="page-content hidden">
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <div class="text-xl font-bold">Discover</div>
+            <div class="flex items-center gap-2">
+              <button class="px-3 py-1.5 rounded-xl border text-sm bg-indigo-50 text-indigo-700">All</button>
+              <button class="px-3 py-1.5 rounded-xl border text-sm">Photos</button>
+              <button class="px-3 py-1.5 rounded-xl border text-sm">Videos</button>
+            </div>
+          </div>
+          <div id="discover-creators" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Discover creators will be loaded here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Page -->
+      <div id="profile-page" class="page-content hidden">
+        <div class="space-y-6">
+          <div id="profile-header" class="rounded-2xl overflow-hidden border bg-white">
+            <!-- Profile header will be loaded here -->
+          </div>
+          <div id="paywall-banner" class="hidden rounded-2xl border bg-gradient-to-br from-indigo-50 via-white to-white p-4 flex items-center justify-between">
+            <div>
+              <div class="font-semibold">Subscribe to unlock all content</div>
+              <div class="text-sm text-gray-600">Full-resolution photos, videos, and DMs.</div>
+            </div>
+            <button id="paywall-subscribe" class="px-4 py-2 rounded-2xl bg-indigo-600 text-white text-sm font-medium shadow hover:bg-indigo-700">Subscribe</button>
+          </div>
+          <div class="rounded-2xl border bg-white">
+            <div class="flex gap-2 p-2 border-b">
+              <button data-tab="posts" class="tab-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm bg-gray-100">
+                <i data-lucide="image" class="h-4 w-4"></i> Posts
+              </button>
+              <button data-tab="videos" class="tab-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm hover:bg-gray-50">
+                <i data-lucide="video" class="h-4 w-4"></i> Videos
+              </button>
+              <button data-tab="likes" class="tab-btn inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm hover:bg-gray-50">
+                <i data-lucide="thumbs-up" class="h-4 w-4"></i> Likes
+              </button>
+            </div>
+            <div class="p-4" id="profile-content">
+              <!-- Profile content will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages Page -->
+      <div id="messages-page" class="page-content hidden">
+        <div class="rounded-2xl border bg-white h-[70vh] flex flex-col">
+          <div class="p-3 border-b flex items-center gap-2">
+            <i data-lucide="users" class="h-5 w-5"></i>
+            <div class="font-semibold">Messages</div>
+          </div>
+          <div class="flex-1 overflow-auto p-4 space-y-3 bg-gray-50">
+            <div class="flex gap-2 items-end">
+              <img src="https://i.pravatar.cc/150?img=1" class="h-8 w-8 rounded-full"/>
+              <div class="rounded-2xl px-3 py-2 bg-white border max-w-xs text-sm">Hey! Thanks for subscribing 💜</div>
+            </div>
+            <div class="flex gap-2 items-end justify-end">
+              <div class="rounded-2xl px-3 py-2 bg-indigo-600 text-white max-w-xs text-sm">Loving the new set! When's the next drop?</div>
+              <img src="https://i.pravatar.cc/150?img=2" class="h-8 w-8 rounded-full"/>
+            </div>
+          </div>
+          <div class="p-3 border-t flex items-center gap-2">
+            <input id="message-input" placeholder="Type a message…" class="flex-1 rounded-2xl border px-3 py-2 text-sm"/>
+            <button class="p-2 rounded-xl border hover:bg-gray-50">
+              <i data-lucide="image" class="h-5 w-5"></i>
+            </button>
+            <button id="send-message" class="p-2 rounded-xl border bg-indigo-600 text-white hover:bg-indigo-700">
+              <i data-lucide="send" class="h-5 w-5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Page -->
+      <div id="settings-page" class="page-content hidden">
+        <div class="space-y-6">
+          <div class="rounded-2xl border bg-white p-4">
+            <div class="font-semibold mb-2">Account</div>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs">Display name</label>
+                <input id="display-name" class="w-full rounded-xl border px-3 py-2 text-sm" value="Lina"/>
+              </div>
+              <div>
+                <label class="text-xs">Username</label>
+                <input id="username" class="w-full rounded-xl border px-3 py-2 text-sm" value="@lina"/>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="text-xs">Bio</label>
+                <textarea id="bio" class="w-full rounded-xl border px-3 py-2 text-sm">Photographer & creator. New sets weekly.</textarea>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-2xl border bg-white p-4">
+            <div class="font-semibold mb-2">Subscription</div>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <div class="rounded-xl border p-3">
+                <div class="text-sm font-medium">Monthly price</div>
+                <input id="monthly-price" class="mt-2 w-full rounded-xl border px-3 py-2 text-sm" value="$14.99"/>
+              </div>
+              <div class="rounded-xl border p-3">
+                <div class="text-sm font-medium">Auto-renew</div>
+                <select id="auto-renew" class="mt-2 w-full rounded-xl border px-3 py-2 text-sm">
+                  <option>Enabled</option>
+                  <option>Disabled</option>
+                </select>
+              </div>
+              <div class="rounded-xl border p-3">
+                <div class="text-sm font-medium">Promotions</div>
+                <button class="mt-2 w-full rounded-xl border px-3 py-2 text-sm hover:bg-gray-50">Create Discount</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="lg:hidden fixed bottom-3 left-1/2 -translate-x-1/2 z-40 bg-white border rounded-2xl shadow-lg px-2 py-1 flex items-center gap-1">
+    <button data-page="feed" class="mobile-nav-btn px-3 py-2 rounded-xl text-xs font-medium flex items-center gap-1 bg-gray-100">
+      <i data-lucide="home" class="h-4 w-4"></i> Feed
+    </button>
+    <button data-page="discover" class="mobile-nav-btn px-3 py-2 rounded-xl text-xs font-medium flex items-center gap-1 hover:bg-gray-50">
+      <i data-lucide="users" class="h-4 w-4"></i> Discover
+    </button>
+    <button data-page="profile" class="mobile-nav-btn px-3 py-2 rounded-xl text-xs font-medium flex items-center gap-1 hover:bg-gray-50">
+      <i data-lucide="star" class="h-4 w-4"></i> Profile
+    </button>
+    <button data-page="messages" class="mobile-nav-btn px-3 py-2 rounded-xl text-xs font-medium flex items-center gap-1 hover:bg-gray-50">
+      <i data-lucide="message-circle" class="h-4 w-4"></i> Chats
+    </button>
+    <button data-page="settings" class="mobile-nav-btn px-3 py-2 rounded-xl text-xs font-medium flex items-center gap-1 hover:bg-gray-50">
+      <i data-lucide="settings" class="h-4 w-4"></i> Settings
+    </button>
+  </nav>
+
+  <!-- Modals -->
+  <!-- Subscribe Modal -->
+  <div id="subscribe-modal" class="modal fixed inset-0 z-50 hidden place-items-center">
+    <div class="absolute inset-0 bg-black/40" onclick="closeSubscribeModal()"></div>
+    <div class="relative w-full max-w-md rounded-2xl border bg-white p-5 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <div class="text-lg font-bold">Subscribe</div>
+        <button onclick="closeSubscribeModal()" class="p-2 rounded-lg hover:bg-gray-50">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
+      </div>
+      <p class="mt-2 text-sm text-gray-600">Subscribe to unlock exclusive content from this creator.</p>
+      <div class="mt-4 space-y-2">
+        <label class="text-xs font-medium">Plan</label>
+        <select id="subscription-plan" class="w-full rounded-xl border px-3 py-2 text-sm">
+          <option value="monthly">Monthly - $14.99</option>
+          <option value="quarterly">Quarterly - $39.99</option>
+          <option value="yearly">Yearly - $129.99</option>
+        </select>
+        <button id="confirm-subscription" class="w-full mt-3 bg-indigo-600 text-white py-2 rounded-2xl font-medium hover:bg-indigo-700">Confirm Subscription</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tip Modal -->
+  <div id="tip-modal" class="modal fixed inset-0 z-50 hidden place-items-center">
+    <div class="absolute inset-0 bg-black/40" onclick="closeTipModal()"></div>
+    <div class="relative w-full max-w-sm rounded-2xl border bg-white p-5 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <div class="text-lg font-bold">Send a Tip</div>
+        <button onclick="closeTipModal()" class="p-2 rounded-lg hover:bg-gray-50">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
+      </div>
+      <div class="mt-4 grid grid-cols-3 gap-2" id="tip-amounts">
+        <button class="tip-amount-btn rounded-xl border px-3 py-2 text-sm hover:bg-gray-50" data-amount="5">$5</button>
+        <button class="tip-amount-btn rounded-xl border px-3 py-2 text-sm hover:bg-gray-50" data-amount="10">$10</button>
+        <button class="tip-amount-btn rounded-xl border px-3 py-2 text-sm hover:bg-gray-50" data-amount="20">$20</button>
+        <button class="tip-amount-btn rounded-xl border px-3 py-2 text-sm hover:bg-gray-50" data-amount="50">$50</button>
+        <button class="tip-amount-btn rounded-xl border px-3 py-2 text-sm hover:bg-gray-50" data-amount="100">$100</button>
+        <button class="tip-amount-btn rounded-xl border px-3 py-2 text-sm hover:bg-gray-50" data-amount="200">$200</button>
+      </div>
+      <input id="custom-tip-amount" placeholder="Custom amount" class="mt-3 w-full rounded-xl border px-3 py-2 text-sm" />
+      <button id="send-tip" class="w-full mt-3 bg-yellow-500 text-white py-2 rounded-2xl font-medium hover:bg-yellow-600">Send Tip</button>
+    </div>
+  </div>
+
+  <!-- Content Upload Modal -->
+  <div id="upload-modal" class="modal fixed inset-0 z-50 hidden place-items-center">
+    <div class="absolute inset-0 bg-black/40" onclick="closeUploadModal()"></div>
+    <div class="relative w-full max-w-2xl rounded-2xl border bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <div class="text-lg font-bold">Create New Post</div>
+        <button onclick="closeUploadModal()" class="p-2 rounded-lg hover:bg-gray-50">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
+      </div>
+      
+      <form id="upload-form" class="space-y-4">
+        <div>
+          <label class="text-sm font-medium">Title</label>
+          <input id="post-title" class="w-full mt-1 rounded-xl border px-3 py-2 text-sm" placeholder="Enter post title" required/>
+        </div>
+        
+        <div>
+          <label class="text-sm font-medium">Description</label>
+          <textarea id="post-description" class="w-full mt-1 rounded-xl border px-3 py-2 text-sm h-20" placeholder="Describe your content..."></textarea>
+        </div>
+        
+        <div>
+          <label class="text-sm font-medium">Content Type</label>
+          <select id="content-type" class="w-full mt-1 rounded-xl border px-3 py-2 text-sm">
+            <option value="image">Image</option>
+            <option value="video">Video</option>
+            <option value="text">Text Only</option>
+          </select>
+        </div>
+        
+        <div id="media-upload-section">
+          <label class="text-sm font-medium">Upload Media</label>
+          <div class="mt-1 border-2 border-dashed border-gray-300 rounded-xl p-6 text-center">
+            <input type="file" id="media-file" accept="image/*,video/*" class="hidden" multiple/>
+            <i data-lucide="upload" class="h-12 w-12 text-gray-400 mx-auto mb-2"></i>
+            <p class="text-sm text-gray-600">Click to upload or drag and drop</p>
+            <button type="button" onclick="document.getElementById('media-file').click()" class="mt-2 px-4 py-2 rounded-xl border text-sm hover:bg-gray-50">Choose Files</button>
+          </div>
+          <div id="file-preview" class="mt-2 grid grid-cols-2 gap-2 hidden"></div>
+        </div>
+        
+        <div>
+          <label class="text-sm font-medium">Pricing</label>
+          <div class="mt-1 space-y-2">
+            <label class="flex items-center gap-2">
+              <input type="radio" name="pricing" value="free" checked class="text-indigo-600"/>
+              <span class="text-sm">Free content</span>
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="radio" name="pricing" value="paid" class="text-indigo-600"/>
+              <span class="text-sm">Pay-per-view</span>
+              <input id="ppv-price" type="number" step="0.01" placeholder="0.00" class="ml-2 w-20 rounded border px-2 py-1 text-sm" disabled/>
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="radio" name="pricing" value="subscription" class="text-indigo-600"/>
+              <span class="text-sm">Subscribers only</span>
+            </label>
+          </div>
+        </div>
+        
+        <div>
+          <label class="text-sm font-medium">Tags</label>
+          <input id="post-tags" class="w-full mt-1 rounded-xl border px-3 py-2 text-sm" placeholder="Enter tags separated by commas"/>
+        </div>
+        
+        <div class="flex gap-3 pt-4">
+          <button type="button" onclick="closeUploadModal()" class="flex-1 px-4 py-2 rounded-xl border text-sm hover:bg-gray-50">Cancel</button>
+          <button type="submit" class="flex-1 px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700">Create Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sidebar overlay for mobile -->
+  <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-black/30 lg:hidden hidden"></div>
+
+  <footer class="mt-10 py-10 border-t text-center text-xs text-gray-500">
+    <div>© 2024 Fanz — Premium Content Platform</div>
+    <div class="mt-2">Connected to SocialVault Backend API</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
 </html>
