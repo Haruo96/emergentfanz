@@ -195,9 +195,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Content discovery API endpoints"
-    - "Creators API endpoints"
-    - "Individual content API endpoint"
+    - "Frontend testing (if required by user)"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
