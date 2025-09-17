@@ -673,6 +673,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Global functions for inline event handlers
+window.logout = function() {
+  localStorage.removeItem('user_logged_in');
+  window.location.href = 'landing.html';
+};
+
 window.openSubscribeModal = openSubscribeModal;
 window.closeSubscribeModal = closeSubscribeModal;
 window.openTipModal = openTipModal;

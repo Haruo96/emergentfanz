@@ -9,6 +9,15 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="min-h-screen bg-gradient-to-b from-white to-gray-50 text-gray-900">
+  <!-- Landing Page Check -->
+  <script>
+    // Check if user is logged in (simple check for demo)
+    const isLoggedIn = localStorage.getItem('user_logged_in') === 'true';
+    if (!isLoggedIn && !window.location.search.includes('demo=true')) {
+      window.location.href = 'landing.html';
+    }
+  </script>
+
   <!-- Top Navigation -->
   <header class="sticky top-0 z-40 w-full border-b bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
@@ -31,6 +40,9 @@
         <button class="p-2 rounded-xl border hover:bg-gray-50"><i data-lucide="bell" class="h-5 w-5"></i></button>
         <button id="create-post-btn" class="p-2 rounded-xl border hover:bg-gray-50"><i data-lucide="camera" class="h-5 w-5"></i></button>
         <img id="user-avatar" src="https://i.pravatar.cc/150?img=2" alt="me" class="h-8 w-8 rounded-full ring-2 ring-white"/>
+        <button onclick="logout()" class="p-2 rounded-xl border hover:bg-gray-50" title="Logout">
+          <i data-lucide="log-out" class="h-5 w-5"></i>
+        </button>
       </div>
     </div>
   </header>
