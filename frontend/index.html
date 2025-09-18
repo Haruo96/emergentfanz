@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContentVault - Premium Content Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-lock"></i>
+                <span>ContentVault</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#" class="nav-link" data-page="home">Home</a>
+                <a href="#" class="nav-link" data-page="creators">Creators</a>
+                <a href="#" class="nav-link" data-page="subscriptions">My Subscriptions</a>
+                <a href="#" class="nav-link" data-page="profile">Profile</a>
+            </div>
+            <div class="nav-auth">
+                <button class="btn btn-outline" id="login-btn">Login</button>
+                <button class="btn btn-primary" id="register-btn">Sign Up</button>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <img src="" alt="Profile" class="user-avatar" id="user-avatar">
+                    <div class="dropdown">
+                        <button class="btn btn-outline" id="logout-btn">Logout</button>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <div class="page" id="home-page">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Premium Content Platform</h1>
+                    <p>Discover exclusive content from your favorite creators</p>
+                    <button class="btn btn-primary btn-large" id="explore-btn">Explore Creators</button>
+                </div>
+            </div>
+            
+            <div class="posts-feed" id="posts-feed">
+                <h2>Latest Posts</h2>
+                <div class="posts-grid" id="posts-container">
+                    <!-- Posts will be loaded here -->
+                </div>
+                <div class="loading" id="posts-loading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Loading posts...
+                </div>
+            </div>
+        </div>
+
+        <!-- Creators Page -->
+        <div class="page" id="creators-page" style="display: none;">
+            <div class="page-header">
+                <h1>Discover Creators</h1>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search creators..." id="creator-search">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            <div class="creators-grid" id="creators-container">
+                <!-- Creators will be loaded here -->
+            </div>
+            <div class="loading" id="creators-loading" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i> Loading creators...
+            </div>
+        </div>
+
+        <!-- Subscriptions Page -->
+        <div class="page" id="subscriptions-page" style="display: none;">
+            <div class="page-header">
+                <h1>My Subscriptions</h1>
+            </div>
+            <div class="subscriptions-grid" id="subscriptions-container">
+                <!-- Subscriptions will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div class="page" id="profile-page" style="display: none;">
+            <div class="profile-header">
+                <div class="profile-info">
+                    <img src="" alt="Profile" class="profile-avatar" id="profile-avatar">
+                    <div class="profile-details">
+                        <h1 id="profile-username">Username</h1>
+                        <p id="profile-bio">Bio</p>
+                        <div class="profile-stats">
+                            <span id="profile-posts">0 Posts</span>
+                            <span id="profile-subscribers">0 Subscribers</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn btn-outline" id="edit-profile-btn">Edit Profile</button>
+                    <button class="btn btn-primary" id="create-post-btn" style="display: none;">Create Post</button>
+                </div>
+            </div>
+            <div class="profile-content">
+                <div class="profile-tabs">
+                    <button class="tab-btn active" data-tab="posts">Posts</button>
+                    <button class="tab-btn" data-tab="subscribers" id="subscribers-tab" style="display: none;">Subscribers</button>
+                </div>
+                <div class="tab-content" id="profile-posts">
+                    <!-- User posts will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login</h2>
+                <button class="modal-close" id="login-close">&times;</button>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+            </form>
+            <p class="modal-footer">
+                Don't have an account? <a href="#" id="switch-to-register">Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Sign Up</h2>
+                <button class="modal-close" id="register-close">&times;</button>
+            </div>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-username">Username</label>
+                    <input type="text" id="register-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-role">Account Type</label>
+                    <select id="register-role">
+                        <option value="fan">Fan</option>
+                        <option value="creator">Creator</option>
+                    </select>
+                </div>
+                <div class="form-group" id="subscription-price-group" style="display: none;">
+                    <label for="register-subscription-price">Monthly Subscription Price ($)</label>
+                    <input type="number" id="register-subscription-price" min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="register-bio">Bio (Optional)</label>
+                    <textarea id="register-bio" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign Up</button>
+            </form>
+            <p class="modal-footer">
+                Already have an account? <a href="#" id="switch-to-login">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Post Modal -->
+    <div class="modal" id="post-modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="post-modal-title">Post Title</h2>
+                <button class="modal-close" id="post-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="post-creator">
+                    <img src="" alt="Creator" class="creator-avatar" id="post-creator-avatar">
+                    <div class="creator-info">
+                        <h3 id="post-creator-name">Creator Name</h3>
+                        <p id="post-creator-username">@username</p>
+                    </div>
+                </div>
+                <div class="post-media" id="post-media">
+                    <!-- Media will be loaded here -->
+                </div>
+                <div class="post-content">
+                    <p id="post-modal-content">Post content...</p>
+                </div>
+                <div class="post-actions">
+                    <button class="btn btn-outline" id="like-btn">
+                        <i class="fas fa-heart"></i> <span id="like-count">0</span>
+                    </button>
+                    <button class="btn btn-outline" id="comment-btn">
+                        <i class="fas fa-comment"></i> Comments
+                    </button>
+                </div>
+                <div class="subscription-required" id="subscription-required" style="display: none;">
+                    <div class="subscription-message">
+                        <i class="fas fa-lock"></i>
+                        <h3>Subscription Required</h3>
+                        <p>Subscribe to view this exclusive content</p>
+                        <button class="btn btn-primary" id="subscribe-btn">Subscribe Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Post Modal -->
+    <div class="modal" id="create-post-modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Create New Post</h2>
+                <button class="modal-close" id="create-post-close">&times;</button>
+            </div>
+            <form id="create-post-form">
+                <div class="form-group">
+                    <label for="post-title">Title</label>
+                    <input type="text" id="post-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="post-content">Content</label>
+                    <textarea id="post-content" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="post-media">Media Files (Optional)</label>
+                    <input type="file" id="post-media" multiple accept="image/*,video/*">
+                    <div class="file-preview" id="file-preview"></div>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="post-public"> Make this post public (free to view)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="post-tags">Tags (comma separated)</label>
+                    <input type="text" id="post-tags" placeholder="tag1, tag2, tag3">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Post</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Subscribe Modal -->
+    <div class="modal" id="subscribe-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Subscribe to Creator</h2>
+                <button class="modal-close" id="subscribe-close">&times;</button>
+            </div>
+            <div class="subscription-details">
+                <div class="creator-info">
+                    <img src="" alt="Creator" class="creator-avatar" id="subscribe-creator-avatar">
+                    <div>
+                        <h3 id="subscribe-creator-name">Creator Name</h3>
+                        <p id="subscribe-creator-username">@username</p>
+                    </div>
+                </div>
+                <div class="subscription-price">
+                    <h3>Monthly Subscription</h3>
+                    <p class="price" id="subscribe-price">$0.00/month</p>
+                </div>
+                <div class="payment-methods">
+                    <h4>Payment Method</h4>
+                    <div class="payment-method">
+                        <input type="radio" id="placeholder-payment" name="payment" value="placeholder" checked>
+                        <label for="placeholder-payment">
+                            <i class="fas fa-credit-card"></i>
+                            Placeholder Payment (Demo)
+                        </label>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-full" id="confirm-subscribe">Subscribe Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
